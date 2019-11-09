@@ -5,10 +5,14 @@
  */
 package com.fstg.commande.service;
 
+import com.fstg.commande.bean.SupCategorie;
+
 /**
  *
  * @author pc
  */
-public class SupCategorieService {
-    
+public interface SupCategorieService { 
+    public SupCategorie findByNom(String nom); 
+    public void save(SupCategorie supcategorie);
+   
 }

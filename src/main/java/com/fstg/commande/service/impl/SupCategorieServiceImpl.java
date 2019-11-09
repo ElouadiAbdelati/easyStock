@@ -5,28 +5,27 @@
  */
 package com.fstg.commande.service.impl;
 
+import com.fstg.commande.bean.SupCategorie;
 import com.fstg.commande.dao.SupCategorieDao;
 import com.fstg.commande.service.SupCategorieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- *
- * @author pc
- */
 @Service
-public class SupCategorieIml extends SupCategorieService{
+public class SupCategorieServiceImpl implements SupCategorieService {
+
     @Autowired
-   private SupCategorieDao supCategorieDao;
+    private SupCategorieDao SupcategorieDao;
 
-    public SupCategorieDao getSupCategorieDao() {
-        return supCategorieDao;
+    @Override
+    public SupCategorie findByNom(String nom) {
+        return SupcategorieDao.findByNom(nom);
     }
 
-    public void setSupCategorieDao(SupCategorieDao supCategorieDao) {
-        this.supCategorieDao = supCategorieDao;
+    @Override
+    public void save(SupCategorie supcategorie) {
+        SupcategorieDao.save(supcategorie);
     }
+
    
- 
-  
 }

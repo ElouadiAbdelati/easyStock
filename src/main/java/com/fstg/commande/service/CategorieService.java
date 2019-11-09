@@ -6,9 +6,6 @@
 package com.fstg.commande.service;
 
 import com.fstg.commande.bean.Categorie;
-
-
-
 /**
  *
  * @author pc
