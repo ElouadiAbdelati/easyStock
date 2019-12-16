@@ -5,6 +5,8 @@
  */
 package com.fstg.commande.bean;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
@@ -34,11 +36,11 @@ public class SupCategorie implements Serializable {
         // TODO Auto-generated constructor stub
     }
 
-  
+    @JsonIgnore
     public List<Categorie> getCategories() {
         return categories;
     }
-
+    @JsonSetter
     public void setCategories(List<Categorie> categories) {
         this.categories = categories;
     }

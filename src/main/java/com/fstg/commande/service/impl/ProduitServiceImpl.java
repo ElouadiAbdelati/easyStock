@@ -9,6 +9,7 @@ import com.fstg.commande.bean.CommandeItem;
 import com.fstg.commande.bean.Produit;
 import com.fstg.commande.dao.ProduitDao;
 import com.fstg.commande.service.ProduitService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,11 +29,23 @@ public class ProduitServiceImpl implements ProduitService {
     }
 
     @Override
-    public Produit saveProduit(Produit produit, CommandeItem commandeItem) {
+    public Produit save(Produit produit) {
         produitDao.save(produit);
-        commandeItem.setProduit(produit);
         return produit;
     }
+    @Override
+      public  boolean valide(List<CommandeItem> commandeItems) {
+       int cmp=0;
+       if(commandeItems==null || commandeItems.isEmpty()){
+           return false;
+       }
+        for (CommandeItem commandeItem : commandeItems) {
+            if (produitDao.findByReferance(commandeItem.getProduit().getReferance())!=null)
+                cmp++;
+            
+        }
+            return cmp==commandeItems.size();
+      }
 
     ProduitDao getProduitDao() {
         return produitDao;

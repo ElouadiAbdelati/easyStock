@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package com.fstg.commande.dao;
-
 import com.fstg.commande.bean.SupCategorie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -5,8 +5,10 @@
  */
 package com.fstg.commande.rest;
 
-import com.fstg.commande.bean.SupCategorie;
-import com.fstg.commande.service.SupCategorieService;
+import com.fstg.commande.bean.Commande;
+import com.fstg.commande.bean.Paiement;
+import com.fstg.commande.service.PaiementService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,18 +22,25 @@ import org.springframework.web.bind.annotation.RestController;
  * @author pc
  */
 @RestController
-@RequestMapping("/easyStock/supCategorie")
-public class SupCategorieRest {
+@RequestMapping("easyStock/paiement")
+public class PaiementRest {
+
     @Autowired
-    private SupCategorieService supCategorieService;
-  @GetMapping("/nom/{nom}")
-    public SupCategorie findByNom(@PathVariable String nom) {
-        return supCategorieService.findByNom(nom);
+    private PaiementService paiementService;
+
+    @PostMapping("/")
+    public int save(@RequestBody Paiement paiement) {
+        return paiementService.save(paiement);
     }
- @PostMapping("/")
-    public void save(@RequestBody SupCategorie supcategorie) {
-        supCategorieService.save(supcategorie);
+
+    @GetMapping("/commande/{commande}")
+    public List<Paiement> findByCommande(@PathVariable Commande commande) {
+        return paiementService.findByCommande(commande);
+    }
+  @GetMapping("/code/{code}")
+    public Paiement findByCode(String code) {
+        return paiementService.findByCode(code);
     }
     
-    
+
 }

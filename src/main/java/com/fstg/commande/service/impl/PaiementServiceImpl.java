@@ -29,7 +29,7 @@ public class PaiementServiceImpl implements PaiementService {
 
     @Override
     public List<Paiement> findByCommande(Commande commande) {
-
+         commande = commandeService.findByReference(commande.getReference());  
         return paiementDao.findByCommande(commande);
     }
 
@@ -40,10 +40,9 @@ public class PaiementServiceImpl implements PaiementService {
             return -1;
         } else if (!PaiementConstant.INSTRUMENT_PAIMENT.contains(paiement.getType())) {
             return -2;   
-        } else {
+        }else {
             int res = 0;
             paiement.setCommande(commande);
-
             if (paiement.getType().equalsIgnoreCase(PaiementConstant.ESPECE)) {
                 commande.setMontantPayeEspece(commande.getMontantPayeEspece() + paiement.getMontant());
                 res = 1;
@@ -55,6 +54,11 @@ public class PaiementServiceImpl implements PaiementService {
             commandeService.save(paiement.getCommande());
             return res;
         }
+    }
+
+    @Override
+    public Paiement findByCode(String code) {
+       return paiementDao.findByCode(code);
     }
 
 }

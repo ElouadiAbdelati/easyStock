@@ -5,13 +5,18 @@
  */
 package com.fstg.commande.service;
 import com.fstg.commande.bean.Commande;
+import com.fstg.commande.bean.Paiement;
+import java.util.List;
 /**
  *
  * @author pc
  */
 public interface CommandeService {
      public Commande  saveCommandeWithCommandeItem(Commande commande);
-     //public Commande  saveCommandeWithPaiment(Commande commande,List<Paiement> paiments);
+     public Commande  save(Commande commande);
      public Commande findByReference(String referece);
+     public int encaisser(Paiement paiement);
+     public List<Commande> getFactures();
+     public double chiffreAffaire();
 }
 

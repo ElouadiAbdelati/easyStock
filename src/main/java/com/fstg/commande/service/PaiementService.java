@@ -3,19 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fstg.commande.dao;
+package com.fstg.commande.service;
 
 import com.fstg.commande.bean.Commande;
 import com.fstg.commande.bean.Paiement;
 import java.util.List;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author pc
  */
-@Repository
-public interface  CommandeDao extends JpaRepository<Commande,Long>{
-    public Commande findByReference(String referece);
+public interface PaiementService {
+    public int save(Paiement paiement);
+    public  List<Paiement> findByCommande(Commande commande);
+    public Paiement findByCode(String code);
+    
+   
+
 }

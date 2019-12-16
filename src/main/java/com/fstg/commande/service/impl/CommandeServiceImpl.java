@@ -7,11 +7,17 @@ package com.fstg.commande.service.impl;
 
 import com.fstg.commande.bean.Commande;
 import com.fstg.commande.bean.CommandeItem;
+import com.fstg.commande.bean.Paiement;
 import com.fstg.commande.dao.CommandeDao;
 import com.fstg.commande.service.CommandeItemService;
 import com.fstg.commande.service.CommandeService;
+import com.fstg.commande.service.PaiementService;
+import com.fstg.commande.service.ProduitService;
+import com.fstg.commande.service.constant.CommandeConstant;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.persistence.sessions.coordination.Command;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,17 +26,27 @@ import org.springframework.stereotype.Service;
  * @author pc
  */
 @Service
-public class CommandeServiceImpl implements CommandeService{
+public class CommandeServiceImpl implements CommandeService {
+
     @Autowired
-   private CommandeDao commandeDao;
+    private PaiementService paiementService;
     @Autowired
-    private CommandeItemService  commandeItemService;
+    private ProduitService produitService;
+    @Autowired
+    private CommandeDao commandeDao;
+    @Autowired
+    private CommandeItemService commandeItemService;
+
     @Override
     public Commande saveCommandeWithCommandeItem(Commande commande) {
-       calculerTotal(commande,commande.getCommandeItems());
-       commandeDao.save(commande);
-       commandeItemService.saveCommandeItem(commande,commande.getCommandeItems());
-       return commande;
+        if (produitService.valide(commande.getCommandeItems())) {
+            calculerTotal(commande, commande.getCommandeItems());
+            commandeDao.save(commande);
+            commandeItemService.saveCommandeItem(commande, commande.getCommandeItems());
+            return commande;
+        }
+
+        return null;
     }
 
     @Override
@@ -38,31 +54,68 @@ public class CommandeServiceImpl implements CommandeService{
         return commandeDao.findByReference(referece);
     }
 
-
     private void calculerTotal(Commande commande, List<CommandeItem> commandeItems) {
-        BigDecimal total=BigDecimal.ZERO;
-        if(commandeItems!=null && !commandeItems.isEmpty()){
+        BigDecimal total = BigDecimal.ZERO;
+        if (commandeItems != null && !commandeItems.isEmpty()) {
             for (CommandeItem commandeItem : commandeItems) {
-                total=total.add(commandeItem.getPrix().multiply(commandeItem.getQte()));
-               
+                total = total.add(commandeItem.getPrix().multiply(commandeItem.getQte()));
+
             }
             commande.setTotal(total);
         }
     }
 
-    public CommandeDao getCommandeDao() {
-        return commandeDao;
+    @Override
+    public Commande save(Commande commande) {
+        commandeDao.save(commande);
+        return commande;
+
     }
 
-    public void setCommandeDao(CommandeDao commandeDao) {
-        this.commandeDao = commandeDao;
+    @Override
+    public int encaisser(Paiement paiement) {
+        Commande commande = commandeDao.findByReference(paiement.getCommande().getReference());
+        if (commande == null) {
+            return -1;
+        } else {
+            paiement = paiementService.findByCode(paiement.getCode());
+            if (paiement == null) {
+                return -2;
+            } else if (paiement.getType().equalsIgnoreCase(CommandeConstant.ESPECE)) {
+                return -3;
+            } else if (paiement.isEncaissement()) {
+                return -4;
+            } else {
+                paiement.setEncaissement(true);
+                commande.setMontantPayeCheque(commande.getMontantPayeCheque() - paiement.getMontant());
+                commande.setMontantPayeEspece(commande.getMontantPayeEspece() + paiement.getMontant());
+                paiementService.save(paiement);
+                save(commande);
+                return 1;
+            }
+        }
     }
 
-    public CommandeItemService getCommandeItemService() {
-        return commandeItemService;
+    @Override
+    public List<Commande> getFactures() {
+           List<Commande> commandes=commandeDao.findAll();
+        for (Commande commande : commandes) {
+           
+            if (commande.getMontantPayeCheque() == 0 && commande.getMontantPayeEspece() == 0) {
+                commandes.add(commande);
+            }
+        }
+        return commandes;
     }
 
-    public void setCommandeItemService(CommandeItemService commandeItemService) {
-        this.commandeItemService = commandeItemService;
+    @Override
+    public double chiffreAffaire() {
+        double somme = 0;
+        List<Commande> commandes=commandeDao.findAll();
+        for (Commande commande : commandes) {
+           
+            somme += commande.getMontantPayeEspece();
+        }
+        return somme;
     }
 }

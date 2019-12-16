@@ -6,12 +6,14 @@
 package com.fstg.commande.bean;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -35,13 +37,21 @@ public class Paiement implements Serializable {
     protected String code;
     protected double montant;
     protected String type;
-
+    private boolean encaissement;
     /**
      *
      */
     @ManyToOne
     protected Commande commande;
 
+    public boolean isEncaissement() {
+        return encaissement;
+    }
+
+    public void setEncaissement(boolean encaissement) {
+        this.encaissement = encaissement;
+    }
+ 
     public String getCode() {
         return code;
     }

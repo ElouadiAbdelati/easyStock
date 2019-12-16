@@ -18,4 +18,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface  PaiementDao extends JpaRepository<Paiement, Long>{
     List<Paiement> findByCommande(Commande commande);
+    Paiement findByCode(String code);
+               
 }

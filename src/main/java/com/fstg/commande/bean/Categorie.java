@@ -6,13 +6,12 @@
 package com.fstg.commande.bean;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+
 
 /**
  *
@@ -29,8 +28,8 @@ public class Categorie implements Serializable {
 
     @ManyToOne
     private SupCategorie supCatrgorie;
-    @OneToMany(mappedBy = "catrgorie")
-    private List<Produit> produits;
+    
+    
 
     public Categorie() {
     }
@@ -51,14 +50,14 @@ public class Categorie implements Serializable {
         this.nom = nom;
     }
 
-   
-    public List<Produit> getProduits() {
-        return produits;
-    }
 
-    public void setProduits(List<Produit> produits) {
-        this.produits = produits;
-    }
+
+
+
+
+
+
+
 
     public Long getId() {
         return id;

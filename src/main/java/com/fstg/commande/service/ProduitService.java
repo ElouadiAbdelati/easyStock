@@ -4,15 +4,20 @@
  * and open the template in the editor.
  */
 package com.fstg.commande.service;
+
 import com.fstg.commande.bean.CommandeItem;
 import com.fstg.commande.bean.Produit;
+import java.util.List;
 
 /**
  *
  * @author pc
  */
-
 public interface ProduitService {
-      public Produit saveProduit(Produit produit,CommandeItem commandeItem);
-      public Produit finByReference(String reference);
+
+    public Produit save(Produit produit);
+
+    public Produit finByReference(String reference);
+
+    public boolean valide(List<CommandeItem> commandeItems);
 }
