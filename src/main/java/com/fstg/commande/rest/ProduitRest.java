@@ -6,7 +6,9 @@
 package com.fstg.commande.rest;
 import com.fstg.commande.bean.Produit;
 import com.fstg.commande.service.ProduitService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +28,7 @@ public class ProduitRest {
     private ProduitService produitService;
 
     @PostMapping("/")
-    public Produit saveProduit(@RequestBody Produit produit) {
+    public Produit save(@RequestBody Produit produit) {
         return produitService.save(produit);
     }
 
@@ -34,5 +36,22 @@ public class ProduitRest {
     public Produit finByReference(@PathVariable("reference") String reference) {
         return produitService.finByReference(reference);
     }
+   @PostMapping("/create")
+    public Produit create(@RequestBody Produit produit) {
+        return produitService.create(produit);
+    }
+    @GetMapping("/produitsFinStock")
+    public List<Produit> produitsFinStock() {
+        return produitService.produitsFinStock();
+    }
+   
+   @DeleteMapping("/deleteProduit/{reference}")
+    public int deleteProduit(@PathVariable String reference) {
+        return produitService.deleteProduit(reference);
+    }
+    
 
+   
+   
+    
 }

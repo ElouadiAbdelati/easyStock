@@ -5,14 +5,18 @@
  */
 package com.fstg.commande.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
 
 @Entity
 public class Demande implements Serializable {
@@ -25,12 +29,22 @@ public class Demande implements Serializable {
     private double prixtotal;
     private double prixpaye;
     @OneToMany(mappedBy = "demande")
-    private List<Reception> receptions = new ArrayList<Reception>();
+    private List<Reception> receptions ;
     @OneToMany(mappedBy = "demande")
     private List<DemandeItem> demandeItems;
-
+     @JsonFormat(pattern="yyyy-MM-dd")
+     @Temporal(javax.persistence.TemporalType.DATE)
+     private Date dateDemande;
     public Demande() {
 
+    }
+
+    public Date getDateDemande() {
+        return dateDemande;
+    }
+
+    public void setDateDemande(Date dateDemande) {
+        this.dateDemande = dateDemande;
     }
 
     public String getReference() {
@@ -56,19 +70,13 @@ public class Demande implements Serializable {
     public void setPrixpaye(double prixpaye) {
         this.prixpaye = prixpaye;
     }
-
-    public List<DemandeItem> getDemandedeItems() {
-        return demandeItems;
-    }
-
-    public void setDemandedeItems(List<DemandeItem> demandedeItems) {
-        this.demandeItems = demandedeItems;
-    }
-
+   
+    @JsonIgnore
     public List<Reception> getReceptions() {
         return receptions;
     }
 
+    @JsonSetter   
     public void setReceptions(List<Reception> receptions) {
         this.receptions = receptions;
     }
@@ -104,10 +112,16 @@ public class Demande implements Serializable {
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
-
+ 
+    @JsonIgnore
     public List<DemandeItem> getDemandeItems() {
         return demandeItems;
     }
+    @JsonSetter
+    public void setDemandeItems(List<DemandeItem> demandeItems) {
+        this.demandeItems = demandeItems;
+    }
+    
 
     @Override
     public String toString() {

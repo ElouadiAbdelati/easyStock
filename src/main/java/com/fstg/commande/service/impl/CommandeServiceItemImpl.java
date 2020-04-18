@@ -9,8 +9,8 @@ import com.fstg.commande.bean.Commande;
 import com.fstg.commande.bean.CommandeItem;
 import com.fstg.commande.dao.CommandeItemDao;
 import com.fstg.commande.service.CommandeItemService;
+import com.fstg.commande.service.CommandeService;
 import com.fstg.commande.service.ProduitService;
-import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,9 @@ public class CommandeServiceItemImpl implements CommandeItemService {
     private CommandeItemDao commandeItemDao;
     @Autowired
     private ProduitService produitService;
-
+    @Autowired
+    private CommandeService commandeService;
+// laysate ma7soba
     @Override
     public int saveCommandeItem(Commande commande, List<CommandeItem> commandeItems) {
         if (commandeItems == null || !commandeItems.isEmpty()) {
@@ -35,6 +37,7 @@ public class CommandeServiceItemImpl implements CommandeItemService {
             for (CommandeItem commandeItem : commandeItems) {
                 commandeItem.setCommande(commande);
                 commandeItem.setProduit(produitService.finByReference(commandeItem.getProduit().getReferance()));
+          
                 calculerPrix(commandeItem);
                 commandeItemDao.save(commandeItem);
             }
@@ -44,21 +47,21 @@ public class CommandeServiceItemImpl implements CommandeItemService {
     
     @Override
     public List<CommandeItem> findByCommande(Commande commande) {
+        commande=commandeService.findByReference(commande.getReference());
         return commandeItemDao.findByCommande(commande);
     }
     
-    public CommandeItemDao getCommandeItemDao() {
-        return commandeItemDao;
-    }
-    
-    public void setCommandeItemDao(CommandeItemDao commandeItemDao) {
-        this.commandeItemDao = commandeItemDao;
-    }
+     
     
     private void calculerPrix(CommandeItem commandeItem) {
-        BigDecimal prix = BigDecimal.ZERO;
-        prix = prix.add(commandeItem.getQte().multiply(commandeItem.getProduit().getPrix()));
+        double prix = 0;
+        prix = prix+ (commandeItem.getQte()*commandeItem.getProduit().getPrix());
         commandeItem.setPrix(prix);
+    }
+
+    @Override
+    public void save(CommandeItem commandeItem) {
+        commandeItemDao.save(commandeItem);
     }
     
 }

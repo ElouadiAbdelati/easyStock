@@ -176,8 +176,7 @@ public class NewJFrame extends javax.swing.JFrame {
         Commande commande = new Commande();
         Produit produit = new Produit();
         CommandeItem commandeItem = new CommandeItem();
-        commande.setReference(jTextField1.getText());
-        produit.setReferance(jTextField2.getText());
+        
         commandeItem.setProduit(produit);
         commande.getCommandeItems().add(commandeItem);
         commandeRest.saveCommandeWithCommandeItem(commande);

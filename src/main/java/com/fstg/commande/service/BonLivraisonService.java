@@ -5,18 +5,16 @@
  */
 package com.fstg.commande.service;
 
+import com.fstg.commande.bean.BonLivraison;
 import com.fstg.commande.bean.Commande;
-import com.fstg.commande.bean.Paiement;
 import java.util.List;
 
 /**
  *
  * @author pc
  */
-public interface PaiementService {
-    public int save(Paiement paiement);
-    public  List<Paiement> findByCommande(Commande commande);
-    public Paiement findByCode(String code);
-    public int annulerPaiement(Paiement paiement);
-
+public interface BonLivraisonService {
+    public void  bonLivriasonCommande(BonLivraison bonLivraison);
+    public List<BonLivraison> findByCommande(Commande commande);
+    
 }

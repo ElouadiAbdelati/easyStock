@@ -6,6 +6,8 @@
 package com.fstg.commande.service;
 
 import com.fstg.commande.bean.Categorie;
+import com.fstg.commande.bean.SupCategorie;
+import java.util.List;
 /**
  *
  * @author pc
@@ -14,5 +16,6 @@ import com.fstg.commande.bean.Categorie;
 public interface CategorieService { 
     public Categorie findByNom(String nom); 
     public void save(Categorie categorie);
+   public int  saveCategorie(SupCategorie supcategorie,List<Categorie> categories);
    
 }

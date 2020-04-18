@@ -5,6 +5,7 @@
  */
 package com.fstg.commande.bean;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,11 +31,19 @@ public class Stock implements Serializable {
     private double qteMax;
     private double qteMin;
     private double qteAlert;
-
+    private String referance;
     public Stock() {
 
     }
 
+    public String getReferance() {
+        return referance;
+    }
+
+    public void setReferance(String referance) {
+        this.referance = referance;
+    }
+ @JsonIgnore
     public Produit getProduit() {
         return produit;
     }

@@ -33,14 +33,18 @@ public class PaiementRest {
         return paiementService.save(paiement);
     }
 
-    @GetMapping("/commande/{commande}")
-    public List<Paiement> findByCommande(@PathVariable Commande commande) {
+     @PostMapping("/paiementscommande")
+    public List<Paiement> findByCommande(@RequestBody Commande commande) {
         return paiementService.findByCommande(commande);
     }
   @GetMapping("/code/{code}")
     public Paiement findByCode(String code) {
         return paiementService.findByCode(code);
     }
+     @PostMapping("/annulerPaiement")
+    public int annulerPaiement(@RequestBody Paiement paiement) {
+        return paiementService.annulerPaiement(paiement);
+    }
     
-
+  
 }

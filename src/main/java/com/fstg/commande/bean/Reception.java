@@ -5,8 +5,10 @@
  */
 package com.fstg.commande.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
@@ -28,8 +30,10 @@ public class Reception implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private boolean  paye;
     @ManyToOne
     private Demande demande;
+    @JsonFormat(pattern="yyyy-MM-dd")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateReception;
     @OneToMany(mappedBy = "reception")
@@ -38,6 +42,14 @@ public class Reception implements Serializable {
     public Reception() {
         super();
         // TODO Auto-generated constructor stub
+    }
+
+    public boolean isPaye() {
+        return paye;
+    }
+
+    public void setPaye(boolean paye) {
+        this.paye = paye;
     }
 
     public Demande getDemande() {
@@ -55,11 +67,12 @@ public class Reception implements Serializable {
     public void setDateReception(Date dateReception) {
         this.dateReception = dateReception;
     }
-
+ 
+    @JsonIgnore
     public List<ReceptionItem> getReceptionItems() {
         return receptionItems;
     }
-
+   @JsonSetter
     public void setReceptionItems(List<ReceptionItem> receptionItems) {
         this.receptionItems = receptionItems;
     }

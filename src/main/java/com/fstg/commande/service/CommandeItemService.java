@@ -18,4 +18,5 @@ public interface CommandeItemService {
     
       public int   saveCommandeItem(Commande commande,List<CommandeItem>  commandeItems);
           public List<CommandeItem> findByCommande(Commande commande);
+          public void save(CommandeItem commandeItem);
 }

@@ -25,20 +25,22 @@ public class LivraisonItem implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private BigDecimal qte;
+    private double qte;
 
     @OneToOne
     private BonLivraison bonLivraison;
     @ManyToOne
     private Produit produit;
 
-    public BigDecimal getQte() {
+    public double getQte() {
         return qte;
     }
 
-    public void setQte(BigDecimal qte) {
+    public void setQte(double qte) {
         this.qte = qte;
     }
+
+    
 
     public BonLivraison getBonLivraison() {
         return bonLivraison;

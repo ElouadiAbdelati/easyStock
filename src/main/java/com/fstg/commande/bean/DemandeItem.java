@@ -6,7 +6,6 @@
 package com.fstg.commande.bean;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,16 +19,15 @@ import javax.persistence.OneToOne;
  */
 @Entity
 public class DemandeItem implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @OneToOne
     private Produit produit;
-    private BigDecimal prix;
-    private BigDecimal qte;
-    private BigDecimal qteReceptionne;
+    private double prix;
+    private double qte;
+    private double qteReceptionne;
     @ManyToOne
     private Demande demande;
 
@@ -53,33 +51,31 @@ public class DemandeItem implements Serializable {
         this.produit = produit;
     }
 
-    public BigDecimal getPrix() {
+    public double getPrix() {
         return prix;
     }
 
-    public void setPrix(BigDecimal prix) {
+    public void setPrix(double prix) {
         this.prix = prix;
     }
 
-    public BigDecimal getQte() {
+    public double getQte() {
         return qte;
     }
 
-    public void setQte(BigDecimal qte) {
+    public void setQte(double qte) {
         this.qte = qte;
     }
 
-    public BigDecimal getQteReceptionne() {
+    public double getQteReceptionne() {
         return qteReceptionne;
     }
 
-    public void setQteReceptionne(BigDecimal qteReceptionne) {
+    public void setQteReceptionne(double qteReceptionne) {
         this.qteReceptionne = qteReceptionne;
     }
 
-    public Long getId() {
-        return id;
-    }
+    
 
     public void setId(Long id) {
         this.id = id;

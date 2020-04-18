@@ -7,6 +7,7 @@ package com.fstg.commande.service.impl;
 
 import com.fstg.commande.bean.SupCategorie;
 import com.fstg.commande.dao.SupCategorieDao;
+import com.fstg.commande.service.CategorieService;
 import com.fstg.commande.service.SupCategorieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,8 @@ public class SupCategorieServiceImpl implements SupCategorieService {
 
     @Autowired
     private SupCategorieDao SupcategorieDao;
-
+    @Autowired
+      private CategorieService categorieService;
     @Override
     public SupCategorie findByNom(String nom) {
         return SupcategorieDao.findByNom(nom);
@@ -25,6 +27,8 @@ public class SupCategorieServiceImpl implements SupCategorieService {
     @Override
     public void save(SupCategorie supcategorie) {
         SupcategorieDao.save(supcategorie);
+        categorieService.saveCategorie(supcategorie,supcategorie.getCategories());
+        
     }
 
    

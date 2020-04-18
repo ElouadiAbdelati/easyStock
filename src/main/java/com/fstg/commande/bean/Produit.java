@@ -28,7 +28,7 @@ public class Produit implements Serializable {
     private Long id;
     private String nom;
     private String referance;
-    private BigDecimal prix;
+    private double prix;
 
     @ManyToOne
     private Categorie catrgorie;
@@ -65,13 +65,15 @@ public class Produit implements Serializable {
         this.referance = referance;
     }
 
-    public BigDecimal getPrix() {
+    public double getPrix() {
         return prix;
     }
 
-    public void setPrix(BigDecimal prix) {
+    public void setPrix(double prix) {
         this.prix = prix;
     }
+
+    
 
     public Stock getStock() {
         return stock;
